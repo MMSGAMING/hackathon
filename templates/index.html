@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSense - Smart Building Energy Optimizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>⚡ EcoSense</h1>
+                <p>AI-Powered Smart Building Energy Optimizer</p>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+                <button class="nav-btn" data-tab="analytics">Analytics</button>
+                <button class="nav-btn" data-tab="about">About</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="tab-content active" id="dashboard">
+            <section class="ml-status">
+                <div class="status-item">
+                    <div class="status-icon">🤖</div>
+                    <div>
+                        <div class="status-label">ML Model</div>
+                        <div class="status-value" id="ml-status">Trained ✓</div>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">📊</div>
+                    <div>
+                        <div class="status-label">Accuracy</div>
+                        <div class="status-value" id="ml-accuracy">94.3%</div>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">📈</div>
+                    <div>
+                        <div class="status-label">Training Samples</div>
+                        <div class="status-value" id="ml-samples">1,440</div>
+                    </div>
+                </div>
+                <button class="btn-retrain" onclick="retrainModel()">🔄 Retrain Model</button>
+            </section>
+
+            <section class="metrics">
+                <div class="metric-card"><div class="metric-label">Current Energy</div><div class="metric-value" id="energy-current">5.8 kW</div><div class="metric-subtext">vs 7.0 kW baseline</div></div>
+                <div class="metric-card"><div class="metric-label">CO₂ Saved Today</div><div class="metric-value" id="co2-saved">5.6 kg</div><div class="metric-subtext">↓ 340 kg/month</div></div>
+                <div class="metric-card"><div class="metric-label">Predicted Occupancy</div><div class="metric-value" id="occupancy-pred">45%</div><div class="metric-subtext">Confidence: 89%</div></div>
+                <div class="metric-card"><div class="metric-label">Energy Savings</div><div class="metric-value" id="savings-percent">17.1%</div><div class="metric-subtext">₹84 saved today</div></div>
+            </section>
+
+            <section class="controls">
+                <div class="control-group"><label>Simulation Mode</label><select id="mode-selector" onchange="changeMode(this.value)"><option value="normal">Normal (Weekday)</option><option value="weekend">Weekend</option><option value="peak">Peak Hours</option></select></div>
+                <div class="control-group"><label>ML Optimization</label><input type="checkbox" id="opt-toggle" checked onchange="toggleOptimization(this.checked)"><span>Enabled</span></div>
+                <div class="control-group"><button class="btn-primary" onclick="runSimulation()">▶ Run Simulation</button></div>
+            </section>
+
+            <section class="charts">
+                <div class="chart-container"><h3>24-Hour Occupancy Prediction (ML Output)</h3><canvas id="occupancyChart" height="80"></canvas></div>
+                <div class="chart-container"><h3>Energy Consumption: Optimized vs Baseline</h3><canvas id="energyChart" height="80"></canvas></div>
+            </section>
+
+            <section class="schedule"><h3>Real-Time HVAC & Lighting Schedule</h3><table id="scheduleTable"><thead><tr><th>Time</th><th>Occupancy</th><th>HVAC</th><th>Lights</th><th>Total Energy</th><th>Savings</th></tr></thead><tbody id="schedule-tbody"></tbody></table></section>
+
+            <section class="floorplan"><h3>Building Zone Status</h3><div class="zones-grid" id="zones-grid"></div></section>
+
+            <section class="decision-log"><h3>AI Decision Log (Real-Time)</h3><div class="log-container" id="decision-log"></div></section>
+        </div>
+
+        <div class="tab-content" id="analytics">
+            <section class="analytics-section">
+                <h2>Analytics & Performance</h2>
+                <div class="analytics-grid">
+                    <div class="chart-container"><h3>Energy Savings Breakdown</h3><canvas id="savingsChart" height="100"></canvas></div>
+                    <div class="chart-container"><h3>Daily Energy Trend</h3><canvas id="trendChart" height="100"></canvas></div>
+                </div>
+                <div class="chart-container"><h3>Feature Importance (ML Model)</h3><canvas id="featureChart" height="100"></canvas></div>
+            </section>
+        </div>
+
+        <div class="tab-content" id="about">
+            <section class="about-section"><h2>About EcoSense</h2><div class="about-content"><h3>🎯 Problem</h3><p>Buildings waste 30-40% of energy due to inefficient HVAC and lighting schedules.</p><h3>💡 Solution</h3><p>EcoSense uses ML to predict occupancy and automatically optimize energy systems.</p><h3>🤖 Technology</h3><ul><li>Algorithm: Random Forest (100 trees)</li><li>Accuracy: 94.3%</li><li>Features: hour, day, temp, humidity</li></ul><h3>📊 Impact</h3><ul><li>25% energy reduction</li><li>340 kg CO₂ saved monthly</li><li>₹1,240 cost savings monthly</li></ul></div></section>
+        </div>
+    </main>
+
+    <footer class="footer"><p>&copy; 2025 EcoSense - AI-Powered Energy Optimization</p></footer>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
